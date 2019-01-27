@@ -101,6 +101,15 @@ public class playerController : MonoBehaviour
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
 	}
+    public void Fly(float fly)
+    {
+        if (fly > 0)
+        {
+        Vector3 targetVelocity = new Vector2(m_Rigidbody2D.velocity.x, fly * 10f);
+        m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+
+        }
+    }
 
 	private void Flip()
 	{

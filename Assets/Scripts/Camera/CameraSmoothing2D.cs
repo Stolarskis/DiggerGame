@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraSmoothing2D : MonoBehaviour
 {
-    public float dampTime = 0.15f;
+    public float dampTime = 0.4f;
     private Vector3 velocity = Vector3.zero;
     public Transform target;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (target)
         {

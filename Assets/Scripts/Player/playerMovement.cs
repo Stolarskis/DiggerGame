@@ -7,26 +7,35 @@ using UnityEngine.Tilemaps;
 public class playerMovement : MonoBehaviour
 {
     public playerController controller;
+    public PlayerInventory inventory; 
     public Tilemap map;
     public float digRate;
     public float digDistance= 1.2f;
     
     public float runSpeed = 40f;
+    public float flySpeed = 100f;
     private float horizontalMove = 0f;
+    private float verticalMove = 0f;
     private float nextDig;
     private bool jump = false;
-    public bool isDig = false;
-
+    private bool isDig = false;
+    private float topAngle;
+    private float sideAngle;
 
     private void Start()
     {
-        //StartCoroutine(dig());
+        Vector2 size = GetComponent<BoxCollider2D>().size;
+        size = Vector2.Scale(size, (Vector2)transform.localScale);
+        topAngle = Mathf.Atan(size.x / size.y) * Mathf.Rad2Deg;
+        sideAngle = 90.0f - topAngle;
+        Debug.Log(topAngle + ", " + sideAngle);
     }
-
     // Update is called once per frame
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        verticalMove = Input.GetAxisRaw("Vertical") * flySpeed;
+
         if (Input.GetButton("Jump"))
         {
             jump = true;
@@ -37,6 +46,7 @@ public class playerMovement : MonoBehaviour
         if (!isDig)
         {
             controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+            controller.Fly(verticalMove * Time.fixedDeltaTime);
             jump = false;
             string direction = checkPlayerDigState();
             if (direction != "")
@@ -63,21 +73,6 @@ public class playerMovement : MonoBehaviour
         int y = (int)Math.Round(gameObject.transform.position.y);
         int z = (int)Math.Round(gameObject.transform.position.z);
         
-        if (map.HasTile(new Vector3Int(x - 1, y, z)))
-        {
-            Debug.Log("pressing against left tile");
-        }
-        if (map.HasTile(new Vector3Int(x + 1, y, z)))
-        {
-            Debug.Log("pressing against right tile");
-        }
-        if (map.HasTile(new Vector3Int(x, y-1, z)))
-        {
-            Debug.Log("pressing against bottom tile");
-        }
-
-
-
         if (controller.m_Grounded)
         {
             if (Input.GetAxisRaw("Vertical") < 0)
@@ -101,33 +96,35 @@ public class playerMovement : MonoBehaviour
         if (direction == "down")
         {
             yield return new WaitForSeconds(digRate);
-            gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - digDistance , gameObject.transform.position.z);
-            checkTileAndDelete();
+            Vector3Int position = new Vector3Int((int)Math.Round(gameObject.transform.position.x), (int)Math.Round(gameObject.transform.position.y - digDistance), 0);
+            TileBase tile = map.GetTile(position);
+            deleteTileAndMove(position, tile);
         }
-        else if (direction == "right")
+        if (direction == "right")
         {
             yield return new WaitForSeconds(digRate);
-            gameObject.transform.position = new Vector3(gameObject.transform.position.x + digDistance, gameObject.transform.position.y, gameObject.transform.position.z);
-            checkTileAndDelete();
+            Vector3Int position = new Vector3Int((int)Math.Round(gameObject.transform.position.x + digDistance), (int)Math.Round(gameObject.transform.position.y), (int)Math.Round(gameObject.transform.position.z));
+            TileBase tile = map.GetTile(position);
+            deleteTileAndMove(position, tile);
         }
-        else if (direction == "left")
+        if (direction == "left")
         {
-                yield return new WaitForSeconds(digRate);
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x - digDistance, gameObject.transform.position.y, gameObject.transform.position.z);
-                checkTileAndDelete();
+            yield return new WaitForSeconds(digRate);
+            Vector3Int position = new Vector3Int((int)Math.Round(gameObject.transform.position.x - digDistance), (int)Math.Round(gameObject.transform.position.y), (int)Math.Round(gameObject.transform.position.z));
+            TileBase tile = map.GetTile(position);
+            deleteTileAndMove(position, tile);
         }
         isDig = false;
         yield return null;
     }
-    void checkTileAndDelete()
+    void deleteTileAndMove(Vector3Int position, TileBase tile)
     {
-        int x = (int)Math.Round(gameObject.transform.position.x);
-        int y = (int)Math.Round(gameObject.transform.position.y);
-        int z = (int)Math.Round(gameObject.transform.position.z);
-        Vector3Int checkPosition = new Vector3Int(x, y, z);
-        if (map.HasTile(checkPosition))
+        if (tile != null)
         {
-            map.SetTile(checkPosition, null);
-        } 
+            map.SetTile(position, null);
+            gameObject.transform.position = position;
+            inventory.addToInventory(tile);
+        }
     }
 }
+
