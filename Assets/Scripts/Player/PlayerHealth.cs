@@ -4,15 +4,52 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public GameControllerScript GameController;
+    public HealthBarScript HealthBar;
+    public float maxHealth;
+    private float currentHealth;
+    private bool isEmergency;
+
+    void Awake()
     {
-        
+        HealthBar.setupHealthBar();
+        isEmergency = false;
+        setMaxHealth(20);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void changeHealth(float amount)
     {
-        
+        currentHealth += amount;
+        Debug.Log(currentHealth);
+        if (currentHealth <= 0)
+        {
+            GameController.enableGameOver();
+            return;
+        }
+        float size = currentHealth / maxHealth;
+        HealthBar.setSize(size);
+
+        if (!isEmergency && size <= 0.2f)
+        {
+            HealthBar.enableEmergency();
+        }
+        if (isEmergency && size > 0.2f)
+        {
+            HealthBar.disableEmergency();
+        }
     }
+
+    public void setMaxHealth(float max)
+    {
+        maxHealth = max;
+        currentHealth = maxHealth;
+    }
+
+    public void replenishHealth()
+    {
+        currentHealth = maxHealth;
+    }
+
 }
+ 

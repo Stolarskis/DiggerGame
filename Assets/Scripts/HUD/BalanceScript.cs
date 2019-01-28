@@ -8,14 +8,14 @@ public class BalanceScript : MonoBehaviour
     public TextMesh PlayerBalanceText;
 
     private long playerBalance = 0;
-    private void Start()
-    {
-        Deposit(100000);
-    }
+    
     public void Deposit(long amount)
     {
-        StartCoroutine(DepositHelper(amount));
+        //StartCoroutine(DepositHelper(amount));
+        playerBalance += amount;
+        displayScore();
     }
+
     IEnumerator DepositHelper(long count)
     {
         count = count / 10;
@@ -26,17 +26,18 @@ public class BalanceScript : MonoBehaviour
             yield return new WaitForSeconds(1/count);
         }
     }
-    public string Withdrawl(long amount)
+
+    public bool Withdrawl(long amount)
     {
         if (amount > playerBalance)
         {
-            return "Not Enough Money!";
+            return false;
         }
         else
         {
             playerBalance -= amount;
             displayScore();
-            return "withdawl succesful";
+            return true;
         }
     }
 

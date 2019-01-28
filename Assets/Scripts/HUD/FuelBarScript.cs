@@ -9,11 +9,12 @@ public class FuelBarScript : MonoBehaviour
     public SpriteRenderer FuelSprite;
     private Color color;
 
-    private void Start()
+    public void SetupFuelBar()
     {
         FuelBar = transform.Find("FillAnchor");
         FuelSprite = FuelBar.Find("FillSprite").GetComponent<SpriteRenderer>();
         color = FuelSprite.color;
+
     }
     
     public void setSize(float size)
@@ -27,6 +28,7 @@ public class FuelBarScript : MonoBehaviour
     public void disableEmergency()
     {
         StopCoroutine("emergency");
+        FuelSprite.color = color;
     }
 
     IEnumerator emergency()

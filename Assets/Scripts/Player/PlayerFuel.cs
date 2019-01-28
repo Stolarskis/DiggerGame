@@ -5,16 +5,18 @@ using UnityEngine;
 public class PlayerFuel : MonoBehaviour
 {
     public FuelBarScript FuelBar;
-    public float maxFuel;
-    public float emergencyThreshold = 0.3f;
+    public GameControllerScript GameController;
+    private float maxFuel;
+    private float emergencyThreshold = 0.3f;
     private float currentFuel;
     private bool isEmergency;
     
 
-    void Start()
+    void Awake()
     {
+        FuelBar.SetupFuelBar();
         isEmergency = false;
-        setMaxFuel(20);
+        setMaxFuel(50);
         StartCoroutine("useFuel");
     }
 
@@ -24,8 +26,8 @@ public class PlayerFuel : MonoBehaviour
         {
             if (currentFuel <= 0)
             {
-                gameOver();
                 StopCoroutine("useFuel"); 
+                GameController.enableGameOver();
             }
             else
             {
@@ -37,31 +39,37 @@ public class PlayerFuel : MonoBehaviour
 
     }
 
-    private void gameOver() { Debug.Log("Game over????"); }
-
     public float getFuelLevel()
     {
         return currentFuel;
     }
+
     public void refillFuel()
     {
         currentFuel = maxFuel;
+        FuelBar.setSize(1);
+        if (isEmergency)
+        {
+            FuelBar.disableEmergency();
+            isEmergency = false;
+        }
     }
 
     private void decrementFuel()
     {
         currentFuel--;
         float size = currentFuel / maxFuel;
-        Debug.Log("setSize");
         FuelBar.setSize(size);
 
         if(!isEmergency && size <= emergencyThreshold)
         {
             FuelBar.enableEmergency();
+            isEmergency = true;
         }
         if (isEmergency && size > emergencyThreshold)
         {
             FuelBar.disableEmergency();
+            isEmergency = false;
         }
     }
 

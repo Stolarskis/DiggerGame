@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class GameControllerScript : MonoBehaviour
 {
-    public GameObject HUD;
+    public HUDScript HUD;
+    private bool isGameOver;
 
-    void Start()
+    void Awake()
     {
+        isGameOver = false;
     }
 
+    private void FixedUpdate()
+    {
+        if (isGameOver && Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
+    }
 
     public void enableGameOver()
     {
-        Application.LoadLevel(Application.loadedLevel);
+        HUD.disableHUD();
+        HUD.enableRestartScreen();
+        isGameOver = true;     
     }
 }

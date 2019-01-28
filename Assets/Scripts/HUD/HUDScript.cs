@@ -7,10 +7,11 @@ public class HUDScript : MonoBehaviour
     public GameObject RestartScreen;
     public GameObject PlayerHUD;
 
-    void Start()
+    void Awake()
     {
         RestartScreen = GameObject.Find("RestartScreen");
         PlayerHUD = GameObject.Find("PlayerHUD");
+        disableRestartScreen();
     }
     public void enableHUD()
     {

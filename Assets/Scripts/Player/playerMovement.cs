@@ -17,7 +17,6 @@ public class playerMovement : MonoBehaviour
     private float horizontalMove = 0f;
     private float verticalMove = 0f;
     private float nextDig;
-    private bool jump = false;
     private bool isDig = false;
     private float topAngle;
     private float sideAngle;
@@ -36,18 +35,13 @@ public class playerMovement : MonoBehaviour
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         verticalMove = Input.GetAxisRaw("Vertical") * flySpeed;
 
-        if (Input.GetButton("Jump"))
-        {
-            jump = true;
-        }
     }
     void FixedUpdate()
     {
         if (!isDig)
         {
-            controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+            controller.Move(horizontalMove * Time.fixedDeltaTime, false, false);
             controller.Fly(verticalMove * Time.fixedDeltaTime);
-            jump = false;
             string direction = checkPlayerDigState();
             if (direction != "")
             {

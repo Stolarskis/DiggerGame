@@ -5,30 +5,34 @@ using UnityEngine.Tilemaps;
 
 public class PlayerInventory : MonoBehaviour
 {
+    public int maxInventorySpace;
+
+    private int currentInventorySpace;
+    private long muny;
     private Hashtable inventory = new Hashtable();
+    //Value = how much inventory space the item takes up
     private Hashtable ores = new Hashtable()
     {
-        {"iron", 1},
-        {"silver",2},
-        {"gold",3},
-        {"platinum",4}
+        {"iron", 4},
+        {"copper",4},
+        {"gold",2},
+        {"platinum",2}
     };
 
 
-    private void Start()
+    private void Awake()
     {
         inventory = new Hashtable();
+        
+        inventorySpace = 20;
+        muny = 0;
     }
 
-    void FixedUpdate()
-    {
-        //Debug.Log(inventory["iron"]);
-    }
     public void addToInventory(TileBase tile)
     {
         if (tile == null)
         {
-            
+            return;
         }
         else
         {
@@ -67,4 +71,6 @@ public class PlayerInventory : MonoBehaviour
         inventory.Clear();
         return temp;
     }
+
+
 }
