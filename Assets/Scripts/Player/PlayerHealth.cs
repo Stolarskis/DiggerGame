@@ -15,11 +15,12 @@ public class PlayerHealth : MonoBehaviour
     {
         HealthBar.setupHealthBar();
         isEmergency = false;
-        setMaxHealth(20);
+        setMaxHealth(100);
     }
 
     public void changeHealth(float amount)
     {
+        Debug.Log(amount);
         currentHealth += amount;
         Debug.Log(currentHealth);
         if (currentHealth <= 0)
@@ -49,6 +50,22 @@ public class PlayerHealth : MonoBehaviour
     public void replenishHealth()
     {
         currentHealth = maxHealth;
+        HealthBar.disableEmergency();
+        HealthBar.setSize(1);
+    }
+
+    public float getMissingHealth()
+    {
+        return maxHealth - currentHealth;
+    }
+
+    public bool isFullHealth()
+    {
+        if (currentHealth == maxHealth)
+        {
+            return true;
+        }
+        return false;
     }
 
 }

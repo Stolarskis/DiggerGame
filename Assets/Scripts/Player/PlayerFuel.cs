@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerFuel : MonoBehaviour
 {
     public FuelBarScript FuelBar;
     public GameControllerScript GameController;
-    private float maxFuel;
+    public PlayerInventory playerInventory;
+    public FuelStationController fuelStation; 
+    public float maxFuel;
+    public float currentFuel;
     private float emergencyThreshold = 0.3f;
-    private float currentFuel;
     private bool isEmergency;
     
 
@@ -16,7 +19,7 @@ public class PlayerFuel : MonoBehaviour
     {
         FuelBar.SetupFuelBar();
         isEmergency = false;
-        setMaxFuel(50);
+        setMaxFuel(1000);
         StartCoroutine("useFuel");
     }
 
@@ -46,13 +49,13 @@ public class PlayerFuel : MonoBehaviour
 
     public void refillFuel()
     {
-        currentFuel = maxFuel;
-        FuelBar.setSize(1);
-        if (isEmergency)
-        {
-            FuelBar.disableEmergency();
-            isEmergency = false;
-        }
+            currentFuel = maxFuel;
+            FuelBar.setSize(1);
+            if (isEmergency)
+            {
+                FuelBar.disableEmergency();
+                isEmergency = false;
+            }
     }
 
     private void decrementFuel()
@@ -79,5 +82,9 @@ public class PlayerFuel : MonoBehaviour
         currentFuel = maxFuel;
     }
 
-
+    public float getMissingFuel()
+    {
+        return maxFuel - currentFuel;
+    }
+    
 }

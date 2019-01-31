@@ -31,6 +31,7 @@ public class HealthBarScript : MonoBehaviour
     public void disableEmergency()
     {
         StopCoroutine("emergency");
+        HealthSprite.color = color;
     }
 
     IEnumerator emergency()

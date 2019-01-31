@@ -6,7 +6,9 @@ using UnityEngine.Tilemaps;
 public class PlayerInventory : MonoBehaviour
 {
     public int maxInventorySpace;
+    public BalanceScript balanceHUD;
 
+    //TODO: Inventory space is check for 
     private int currentInventorySpace;
     private long muny;
     private Hashtable inventory = new Hashtable();
@@ -18,14 +20,14 @@ public class PlayerInventory : MonoBehaviour
         {"gold",2},
         {"platinum",2}
     };
-
+    
 
     private void Awake()
     {
         inventory = new Hashtable();
-        
-        inventorySpace = 20;
+        currentInventorySpace = 20;
         muny = 0;
+        addToMuny(100000000000000);
     }
 
     public void addToInventory(TileBase tile)
@@ -65,12 +67,26 @@ public class PlayerInventory : MonoBehaviour
         }
 
     }
-    public Hashtable clearInventory()
+    public void clearInventory()
     {
-        Hashtable temp = inventory;
         inventory.Clear();
-        return temp;
     }
+    public Hashtable getInventory()
+    {
+        return inventory;
+    }
+
+    public void addToMuny(long value)
+    {
+        muny += value;
+        balanceHUD.setText(muny);
+    }
+    public long getMoney()
+    {
+        return muny;
+    }
+
+
 
 
 }
