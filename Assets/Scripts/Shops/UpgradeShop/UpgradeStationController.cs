@@ -19,7 +19,7 @@ public class UpgradeStationController : MonoBehaviour
     public GameObject enginePanel;
     public GameObject fuelTankPanel;
 
-
+    
     private void Awake()
     {
         closeAllPanels();
