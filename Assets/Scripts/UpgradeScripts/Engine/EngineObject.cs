@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class EngineObject : ScriptableObject 
 {
+    public string engineName;
+    public string description;
     public int flySpeed;
     public int runSpeed;
     public int cost;
+
 }

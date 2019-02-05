@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e56a48dbc1cd54abd83421caa36f47, type: 3}
-  m_Name: NewFuelTankObject
+  m_Script: {fileID: 11500000, guid: 3cf30b7b23130754ebd62ed4c71a0fcb, type: 3}
+  m_Name: SteelHull
   m_EditorClassIdentifier: 
-  digRate: 1
-  cost: 500
-  drillName: 
-  description: 
+  hullName: Steel Hull
+  description: Your standard hull
+  maxHealth: 100
+  cost: 1000

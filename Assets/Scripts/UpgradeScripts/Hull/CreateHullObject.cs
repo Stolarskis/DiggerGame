@@ -10,7 +10,7 @@ public class CreateHullObject
     public static void Create()
     {
         //Just copying unity's live tutorials
-        DrillObject asset = ScriptableObject.CreateInstance<DrillObject>();
+        HullObject asset = ScriptableObject.CreateInstance<HullObject>();
         AssetDatabase.CreateAsset(asset, "Assets/Upgrades/Hull/NewHullObject.asset");
         AssetDatabase.SaveAssets();
         EditorUtility.FocusProjectWindow();

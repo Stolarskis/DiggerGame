@@ -12,12 +12,12 @@ public class RepairStationController : MonoBehaviour
     public PlayerInventory playerInventory;
 
     private long percentageMissingHealth;
-    private long totalCost;
+    private float totalCost;
     void OnTriggerEnter2D(Collider2D col)
     {
-        percentageMissingHealth = Convert.ToInt64((playerHealth.getMissingHealth() / playerHealth.maxHealth) * 100);
-        totalCost = percentageMissingHealth * 2;
-        setTotalText(percentageMissingHealth, totalCost);
+        percentageMissingHealth = Convert.ToInt64((playerHealth.getMissingHealth() / playerHealth.hull[playerHealth.selectedHull].maxHealth) * 100);
+        totalCost = playerHealth.getMissingHealth();
+        setTotalText(percentageMissingHealth, Convert.ToInt16(totalCost));
         if (col.gameObject.CompareTag("Player"))
         {
             openFuelGUI();
@@ -37,9 +37,9 @@ public class RepairStationController : MonoBehaviour
     }
 
 
-    public void setTotalText(long missingHealth, long totalCost)
+    public void setTotalText(long missingHealth, float totalCost)
     {
-        totalText.text = "MissingHealth: " + missingHealth.ToString()  + "%" + "\n Total Cost: " + totalCost.ToString(); 
+        totalText.text = "MissingHealth: " + missingHealth.ToString()  + "%" + "\nTotal Cost: " + totalCost.ToString(); 
     }
 
     public void repairMech()
@@ -54,7 +54,7 @@ public class RepairStationController : MonoBehaviour
             }
             else
             {
-                playerInventory.addToMuny(-totalCost);
+                playerInventory.addToMuny(-Convert.ToInt64(totalCost));
                 playerHealth.replenishHealth();
                 totalText.text = "MissingHealth: 0% \n ToalCost: $0 \n Thank you!";
             }

@@ -12,7 +12,7 @@ public class GameControllerScript : MonoBehaviour
         isGameOver = false;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (isGameOver && Input.GetKeyDown(KeyCode.R))
         {

@@ -29,6 +29,9 @@ public class playerMovement : MonoBehaviour
     public DrillObject[] drills;
     public int currentDrill = 0;
 
+    public EngineObject[] engines;
+    public int currentEngine = 0;
+
     private void Awake()
     {
         fallingSum = 0;
@@ -39,8 +42,8 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        verticalMove = Input.GetAxisRaw("Vertical") * flySpeed;
+        horizontalMove = Input.GetAxisRaw("Horizontal") * engines[currentEngine].runSpeed;
+        verticalMove = Input.GetAxisRaw("Vertical") * engines[currentEngine].flySpeed;
 
     }
     void FixedUpdate()

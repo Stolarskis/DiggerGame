@@ -22,7 +22,6 @@ public class OreProcessorController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Something entered the collider");
         if (col.gameObject.CompareTag("Player"))
         {
             total = 0;

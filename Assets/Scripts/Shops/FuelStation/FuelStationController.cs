@@ -41,7 +41,7 @@ public class FuelStationController : MonoBehaviour
     //Fuel cost is 1:1, ie, 1 missing fuel costs $1
     public void buyFuel(){
         long pMoney = playerInventory.getMoney();
-        float missingFuel = playerFuel.maxFuel - playerFuel.currentFuel;
+        float missingFuel = playerFuel.fuelTanks[playerFuel.selectedFuelTank].maxFuel - playerFuel.currentFuel;
         if (pMoney < missingFuel)
         {
             setTotalText("Not Enough Money!");

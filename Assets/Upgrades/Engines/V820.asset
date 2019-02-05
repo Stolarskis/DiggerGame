@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e56a48dbc1cd54abd83421caa36f47, type: 3}
-  m_Name: NewEngineObject
+  m_Script: {fileID: 11500000, guid: 6754890e1ef332e4681d550aedf71f68, type: 3}
+  m_Name: V820
   m_EditorClassIdentifier: 
-  digRate: 1
-  cost: 500
-  drillName: 
-  description: 
+  engineName: V820
+  description: 'EnginePower: 300'
+  flySpeed: 100
+  runSpeed: 120
+  cost: 50000

@@ -9,18 +9,21 @@ public class PlayerFuel : MonoBehaviour
     public GameControllerScript GameController;
     public PlayerInventory playerInventory;
     public FuelStationController fuelStation; 
-    public float maxFuel;
     public float currentFuel;
     private float emergencyThreshold = 0.3f;
     private bool isEmergency;
-    
+
+    public FuelTankObject[] fuelTanks;
+    public int selectedFuelTank = 0;
+
 
     void Awake()
     {
         FuelBar.SetupFuelBar();
         isEmergency = false;
-        setMaxFuel(1000);
+        currentFuel = fuelTanks[0].maxFuel; 
         StartCoroutine("useFuel");
+        refillFuel();
     }
 
     IEnumerator useFuel()
@@ -49,7 +52,7 @@ public class PlayerFuel : MonoBehaviour
 
     public void refillFuel()
     {
-            currentFuel = maxFuel;
+            currentFuel = fuelTanks[selectedFuelTank].maxFuel;
             FuelBar.setSize(1);
             if (isEmergency)
             {
@@ -61,7 +64,7 @@ public class PlayerFuel : MonoBehaviour
     private void decrementFuel()
     {
         currentFuel--;
-        float size = currentFuel / maxFuel;
+        float size = currentFuel / fuelTanks[selectedFuelTank].maxFuel ;
         FuelBar.setSize(size);
 
         if(!isEmergency && size <= emergencyThreshold)
@@ -76,15 +79,9 @@ public class PlayerFuel : MonoBehaviour
         }
     }
 
-    public void setMaxFuel(float max)
-    {
-        maxFuel = max;
-        currentFuel = maxFuel;
-    }
-
     public float getMissingFuel()
     {
-        return maxFuel - currentFuel;
+        return fuelTanks[selectedFuelTank].maxFuel - currentFuel;
     }
     
 }

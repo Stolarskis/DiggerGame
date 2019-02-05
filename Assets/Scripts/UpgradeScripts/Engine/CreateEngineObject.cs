@@ -10,7 +10,7 @@ public class CreateEngineObject
     public static void Create()
     {
         //Just copying unity's live tutorials
-        DrillObject asset = ScriptableObject.CreateInstance<DrillObject>();
+        EngineObject asset = ScriptableObject.CreateInstance<EngineObject>();
         AssetDatabase.CreateAsset(asset, "Assets/Upgrades/Engines/NewEngineObject.asset");
         AssetDatabase.SaveAssets();
         EditorUtility.FocusProjectWindow();

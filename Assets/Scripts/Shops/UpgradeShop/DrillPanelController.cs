@@ -52,7 +52,7 @@ public class DrillPanelController : MonoBehaviour
         }
         else if(playerInventory.getMoney()  <= cost)
         {
-            Debug.Log("Not enough Money!!!");
+            Debug.Log("You Don't have enough Money");
         }
         else
         {

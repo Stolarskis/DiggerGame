@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlayerMain: MonoBehaviour
+public class Playein: MonoBehaviour
 {
     private Hashtable inventory; 
     private Hashtable ores = new Hashtable()

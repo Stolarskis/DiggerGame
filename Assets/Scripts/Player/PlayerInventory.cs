@@ -20,14 +20,14 @@ public class PlayerInventory : MonoBehaviour
         {"gold",2},
         {"platinum",2}
     };
-    
+    //TODO Implement Inventoryspace objects + the logic for inventory space
 
     private void Awake()
     {
         inventory = new Hashtable();
         currentInventorySpace = 20;
         muny = 0;
-        addToMuny(100000000000000);
+        addToMuny(100);
     }
 
     public void addToInventory(TileBase tile)
