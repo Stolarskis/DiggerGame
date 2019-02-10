@@ -10,35 +10,28 @@ public class UpgradeStationController : MonoBehaviour
     public PlayerFuel fuel;
     public playerMovement movement;
 
+    public Canvas notificationCanvas;
+    public NotificationCanvasController notificationController;
+
     public Canvas upgradeCanvas;
-
-    public GameObject drillPanel;
-    public GameObject hullPanel;
-    public GameObject enginePanel;
-    public GameObject fuelTankPanel;
-
-    public GameObject notificationPanel;
+    public UpgradeCanvasController UpgradeController;
 
     //Notification subscribers
     private void OnEnable()
     {
-        EnginePanelController.NoMoney += enableNotification;
+       //EnginePanelController.NoMoney += enableNotification;
     }
 
     private void OnDisable()
     {
-        
-        EnginePanelController.NoMoney -= disableNotification;
+        //EnginePanelController.NoMoney -= disableNotification;
     }
 
-    private void Awake()
-    {
-        closeAllPanels();
-    }
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Player"))
         {
+            //UpgradeController.closeAllPanels();
             openFuelGUI();
         }
     }
@@ -56,45 +49,5 @@ public class UpgradeStationController : MonoBehaviour
     }
 
 
-    public void closeAllPanels()
-    {
-        drillPanel.SetActive(false);
-        hullPanel.SetActive(false);
-        enginePanel.SetActive(false);
-        fuelTankPanel.SetActive(false);
-    }
-
-    public void openDrillPanel()
-    {
-        closeAllPanels();
-        drillPanel.SetActive(true);
-    }
-
-    public void openHullPanel()
-    {
-        closeAllPanels();
-        hullPanel.SetActive(true);
-    }
-
-    public void openEnginePanel()
-    {
-        closeAllPanels();
-        enginePanel.SetActive(true);
-    }
-
-    public void openFuelTankPanel()
-    {
-        closeAllPanels();
-        fuelTankPanel.SetActive(true);
-    }
-
-    public void enableNotification()
-    {
-        notificationPanel.SetActive(true);
-    }
-    public void disableNotification()
-    {
-        notificationPanel.SetActive(false);
-    }
     
 }

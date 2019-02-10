@@ -13,6 +13,11 @@ public class RepairStationController : MonoBehaviour
 
     private long percentageMissingHealth;
     private float totalCost;
+
+    public delegate void NoMoney();
+    public static event NoMoney NoMoneyToRepair;
+
+
     void OnTriggerEnter2D(Collider2D col)
     {
         percentageMissingHealth = Convert.ToInt64((playerHealth.getMissingHealth() / playerHealth.hull[playerHealth.selectedHull].maxHealth) * 100);
@@ -50,7 +55,7 @@ public class RepairStationController : MonoBehaviour
             long playerMoney = playerInventory.getMoney();
             if (playerMoney <= totalCost)
             {
-                totalText.text += " \n Not Enough Money!";
+                NoMoneyToRepair();
             }
             else
             {

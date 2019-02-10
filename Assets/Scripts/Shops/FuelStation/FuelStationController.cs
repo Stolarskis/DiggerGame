@@ -12,6 +12,9 @@ public class FuelStationController : MonoBehaviour
     public PlayerFuel playerFuel;
     public PlayerInventory playerInventory;
 
+   public delegate void NoMoney();
+   public static event NoMoney NoMoneyToBuyGas;
+
     void OnTriggerEnter2D(Collider2D col)
     {
         setTotalText(playerFuel.getMissingFuel().ToString());
@@ -35,7 +38,7 @@ public class FuelStationController : MonoBehaviour
 
     public void setTotalText(string text)
     {
-        totalText.text = "Total: " + text; 
+        totalText.text = "Total: " + "$" + text; 
     }
 
     //Fuel cost is 1:1, ie, 1 missing fuel costs $1
@@ -44,7 +47,7 @@ public class FuelStationController : MonoBehaviour
         float missingFuel = playerFuel.fuelTanks[playerFuel.selectedFuelTank].maxFuel - playerFuel.currentFuel;
         if (pMoney < missingFuel)
         {
-            setTotalText("Not Enough Money!");
+            NoMoneyToBuyGas();
         }
         else
         {

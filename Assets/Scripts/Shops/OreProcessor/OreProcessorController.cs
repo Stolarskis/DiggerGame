@@ -12,13 +12,17 @@ public class OreProcessorController : MonoBehaviour
 
     private Hashtable playerInventory;
     private Hashtable orePrices = new Hashtable()
+
     {
         {"iron", 10},
         {"copper",20},
         {"gold",50},
         {"platinum",100}
     };
-    private long total;
+   private long total;
+
+   public delegate void NothingToSell();
+   public static event NothingToSell NothingToProcess;
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -45,24 +49,33 @@ public class OreProcessorController : MonoBehaviour
 
     public void sellAll()
     {
-        inventoryScript.addToMuny(total);
-        inventoryScript.clearInventory();
-        playerInventory.Clear();
-        total = 0;
-        playerInventoryText.text = "Total: 0";
+        if(total == 0)
+        {
+            NothingToProcess();   
+        }
+        else
+        {
+            inventoryScript.addToMuny(total);
+            inventoryScript.clearInventory();
+            playerInventory.Clear();
+            total = 0;
+            playerInventoryText.text = "Total: 0";
+        }
     }
 
     public void displayPlayerInventory()
     {
         string invenText = "";
+        string totalText = "";
         long totalCost = 0;
         foreach (DictionaryEntry s in playerInventory)
         {
             invenText +=s.Key.ToString() + ": " +  s.Value.ToString() + "\n";
             totalCost += calcTotal(s);
         }
-        invenText += "\n" + "Total:  " + totalCost;
-        playerInventoryText.text = invenText;
+        totalText = "Total:  " + totalCost + "\n \n Player Inventory \n --------------------- \n";
+        totalText += invenText; 
+        playerInventoryText.text = totalText;
         total = totalCost;
     }
     public long calcTotal(DictionaryEntry ore)

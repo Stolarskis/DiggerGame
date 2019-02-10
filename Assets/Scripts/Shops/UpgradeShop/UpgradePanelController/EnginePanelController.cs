@@ -23,10 +23,17 @@ public class EnginePanelController : MonoBehaviour
     public delegate void NotEnoughMoney();
     public static event NotEnoughMoney NoMoney;
 
+    public delegate void AlreadyOwned();
+    public static event AlreadyOwned Owned;
+
+    //public delegate void ButtonsGenerated();
+    //public static event ButtonsGenerated EngineButtonsGenerated;
+
     public void Awake()
     {
         buttonSpacingY = -50f;
         generateButtons();
+        //EngineButtonsGenerated();
     }
 
     public void generateButtons()
@@ -62,11 +69,10 @@ public class EnginePanelController : MonoBehaviour
         int engineCost = playerMovement.engines[currentSelectedEngine].cost;
         if (currentSelectedEngine == playerMovement.currentEngine)
         {
-            Debug.Log("Already own that Engine");
+            Owned();
         }
         else if (playerInventory.getMoney() <=  engineCost){
             NoMoney();
-            Debug.Log("no money");
         }
         else
         {
