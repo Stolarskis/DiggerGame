@@ -28,7 +28,6 @@ public class NotificationCanvasController : MonoBehaviour
  
     }
 
-
     public void closeNotificationPanel()
     {
         NotEnoughMoneyPanel.SetActive(false);
