@@ -52,7 +52,7 @@ public class FuelStationController : MonoBehaviour
         else
         {
             playerInventory.addToMuny(-Convert.ToInt64(missingFuel));
-            setTotalText("Thank You");
+            totalText.text = "Thank You";
             playerFuel.refillFuel();
         }
      }

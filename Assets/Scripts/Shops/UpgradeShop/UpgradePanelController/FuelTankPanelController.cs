@@ -52,9 +52,9 @@ public class FuelTankPanelController: MonoBehaviour
 
     public void displayFuelTank(int fuelTank)
     {
-        FuelTankNameText.text =  playerFuel.fuelTanks[selectedFuelTank].name;
-        FuelTankCostText.text = "$" + playerFuel.fuelTanks[selectedFuelTank].cost.ToString();
-        MaxFuelText.text = "Fuel Capacity: " + playerFuel.fuelTanks[selectedFuelTank].maxFuel.ToString();
+        FuelTankNameText.text =  playerFuel.fuelTanks[fuelTank].name;
+        FuelTankCostText.text = "$" + playerFuel.fuelTanks[fuelTank].cost.ToString();
+        MaxFuelText.text = "Fuel Capacity: " + playerFuel.fuelTanks[fuelTank].maxFuel.ToString();
         selectedFuelTank = fuelTank;
     }
 

@@ -18,23 +18,28 @@ public class TileMapController : MonoBehaviour
     private void Awake()
     {
         int[] dirtLayer = new int[4]; //number of things
-        int[] goldLayer = new int[4];
-        oreTally = new int[4];
+        int[] gemLayer = new int[8];
         //weighting of each thing, high number means more occurrance
         dirtLayer[0] = 100;
         dirtLayer[1] = 5;
         dirtLayer[2] = 5;
         dirtLayer[3] = 1;
 
-        goldLayer[3] = 10000;
+        gemLayer[0] = 500;
+        gemLayer[1] = 10;
+        gemLayer[2] = 10;
+        gemLayer[3] = 5;
+        gemLayer[4] = 3;
+        gemLayer[5] = 1;
+        gemLayer[6] = 1;
+        gemLayer[7] = 1;
         
-        renderMap(new int[100,100], level,0,0,dirtLayer,calcTotalWeight(dirtLayer));
-        renderMap(new int[100,100], level,100,-99,goldLayer,calcTotalWeight(goldLayer));
+        //renderMap(new int[300,100], level,0,0,dirtLayer,calcTotalWeight(dirtLayer));
+        //renderMap(new int[300,100], level,0,-99,gemLayer,calcTotalWeight(gemLayer));
         //renderMap(new int[300,100], level,0,-198);
 
         //renderMap(generateArray(50, 50, true), level,-200,-200);
         //renderMap(generateArray(50, 50, true), level,-400,-400);
-        displayOreTally();
     }
 
     public int calcTotalWeight(int[] tileWeights)
@@ -71,7 +76,6 @@ public class TileMapController : MonoBehaviour
             total += tileWeights[result];
             if (total >= randVal) break;
         }
-        oreTally[result] += 1;
         return result;
     }
 

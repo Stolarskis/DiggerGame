@@ -13,12 +13,21 @@ public class PlayerInventory : MonoBehaviour
     private long muny;
     private Hashtable inventory = new Hashtable();
     //Value = how much inventory space the item takes up
-    private Hashtable ores = new Hashtable()
+    public Hashtable ores = new Hashtable()
     {
-        {"iron", 4},
-        {"copper",4},
-        {"gold",2},
-        {"platinum",2}
+        {"iron", new int[]{25,10} },
+        {"copper", new int[]{25,20} },
+        {"siler" , new int[]{50, 50}},
+        {"gold", new int[]{75, 100} },
+        {"platinum", new int[]{100, 250} },
+        //NEED MORE ORES HERE
+
+        {"emerald",new int []{125, 2000} },
+        {"ruby",new int[]{150, 5000 } },
+        //Sappire maybe?
+        {"diamond", new int[] {175, 20000} },
+
+
     };
     //TODO Implement Inventoryspace objects + the logic for inventory space
 
@@ -28,6 +37,7 @@ public class PlayerInventory : MonoBehaviour
         currentInventorySpace = 20;
         muny = 0;
         addToMuny(100);
+        
     }
 
     public void addToInventory(TileBase tile)
@@ -85,6 +95,7 @@ public class PlayerInventory : MonoBehaviour
     {
         return muny;
     }
+
 
 
 

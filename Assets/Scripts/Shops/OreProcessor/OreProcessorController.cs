@@ -11,14 +11,7 @@ public class OreProcessorController : MonoBehaviour
     public Text playerInventoryText;
 
     private Hashtable playerInventory;
-    private Hashtable orePrices = new Hashtable()
-
-    {
-        {"iron", 10},
-        {"copper",20},
-        {"gold",50},
-        {"platinum",100}
-    };
+    
    private long total;
 
    public delegate void NothingToSell();
@@ -80,13 +73,14 @@ public class OreProcessorController : MonoBehaviour
     }
     public long calcTotal(DictionaryEntry ore)
     {
-        if (!orePrices.ContainsKey(ore.Key.ToString()))
+        if (!inventoryScript.ores.ContainsKey(ore.Key.ToString()))
         {
             return 0;
         }
         else
         {
-            return Convert.ToInt64(ore.Value.ToString()) * Convert.ToInt64(orePrices[ore.Key.ToString()]);
+            int[] a = (int[])inventoryScript.ores[ore.Key.ToString()];
+            return Convert.ToInt64(ore.Value.ToString()) * Convert.ToInt64(a[1]);
         }
     }
 }

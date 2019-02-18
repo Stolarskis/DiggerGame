@@ -54,10 +54,9 @@ public class DrillPanelController : MonoBehaviour
 
     public void displayDrillInfo(int drill)
     {
-        Debug.Log(drill);
         DrillNameText.text = "Type: " + playerMovement.drills[drill].name;
         DrillInfoText.text = playerMovement.drills[drill].description;
-        DrillCostText.text = "Cost: $" + playerMovement.drills[drill].cost.ToString();
+        DrillCostText.text = "$" + playerMovement.drills[drill].cost.ToString();
         DrillDigRateText.text = "DigRate: " + playerMovement.drills[drill].digRate.ToString();
         selectedDrill = drill;
     }
