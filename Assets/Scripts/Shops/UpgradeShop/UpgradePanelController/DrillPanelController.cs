@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text.RegularExpressions;
+
 
 public class DrillPanelController : MonoBehaviour
 {
@@ -54,10 +56,17 @@ public class DrillPanelController : MonoBehaviour
 
     public void displayDrillInfo(int drill)
     {
-        DrillNameText.text = "Type: " + playerMovement.drills[drill].name;
+        DrillNameText.text =  Regex.Replace(playerMovement.drills[drill].name,"[A-Z]"," $0").Trim();
         DrillInfoText.text = playerMovement.drills[drill].description;
         DrillCostText.text = "$" + playerMovement.drills[drill].cost.ToString();
-        DrillDigRateText.text = "DigRate: " + playerMovement.drills[drill].digRate.ToString();
+        if (playerMovement.drills[drill].digRate == 0)
+        {
+            DrillDigRateText.text = "Infinity";
+        }
+        else
+        {
+            DrillDigRateText.text =  Convert.ToInt16(4 / playerMovement.drills[drill].digRate).ToString() + " m/s";
+        }
         selectedDrill = drill;
     }
 

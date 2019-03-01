@@ -8,6 +8,7 @@ public class NotificationCanvasController : MonoBehaviour
     public GameObject NotEnoughMoneyPanel;
     public GameObject AlreadyOwnedPanel;
     public GameObject NothingToSellPanel;
+    public GameObject RestartScreen;
 
     //Subscribe to panel notifications
     public void OnEnable()
@@ -25,7 +26,8 @@ public class NotificationCanvasController : MonoBehaviour
         RepairStationController.NoMoneyToRepair += enableNoMoneyPanel;
         FuelStationController.NoMoneyToBuyGas+= enableNoMoneyPanel;
         OreProcessorController.NothingToProcess += enableNothingToSellPanel;
- 
+
+        GameControllerScript.gameOver += enableRestartScreen; 
     }
 
     public void closeNotificationPanel()
@@ -50,4 +52,12 @@ public class NotificationCanvasController : MonoBehaviour
         NothingToSellPanel.SetActive(true);
     }
 
+    public void enableRestartScreen()
+    {
+        RestartScreen.SetActive(true);
+    }
+    public void disableRestartScreen()
+    {
+        RestartScreen.SetActive(false);
+    }
 }

@@ -7,14 +7,15 @@ public class FuelBarScript : MonoBehaviour
 {
     public Transform FuelBar;
     public SpriteRenderer FuelSprite;
+    public Image FuelImage;
     private Color color;
 
-    public void SetupFuelBar()
+
+    void Awake()
     {
         FuelBar = transform.Find("FillAnchor");
         FuelSprite = FuelBar.Find("FillSprite").GetComponent<SpriteRenderer>();
         color = FuelSprite.color;
-
     }
     
     public void setSize(float size)
@@ -35,9 +36,9 @@ public class FuelBarScript : MonoBehaviour
     {
         while (true)
         {
-            FuelSprite.color = color; 
+            FuelImage.color = color;
             yield return new WaitForSeconds(0.1f);
-            FuelSprite.color = Color.white;
+            FuelImage.color = Color.white;
             yield return new WaitForSeconds(0.1f);
         }
     }

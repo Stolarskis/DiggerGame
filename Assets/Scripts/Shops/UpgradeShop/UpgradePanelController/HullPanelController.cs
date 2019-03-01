@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text.RegularExpressions;
 
 public class HullPanelController : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class HullPanelController : MonoBehaviour
 
     public void displayHull(int hull)
     {
-        HullNameText.text = playerHealth.hull[hull].name;
+        HullNameText.text = Regex.Replace(playerHealth.hull[hull].name,"[A-Z]"," $0").Trim();
         HullCostText.text = "$" + playerHealth.hull[hull].cost.ToString();
         MaxHullText.text = playerHealth.hull[hull].maxHealth.ToString() + " Health";
         selectedHull = hull;
@@ -64,11 +65,8 @@ public class HullPanelController : MonoBehaviour
     public void BuyHull()
     {
         long cost = playerHealth.hull[selectedHull].cost;
-        Debug.Log(selectedHull);
-        Debug.Log(playerHealth.selectedHull);
         if(selectedHull == playerHealth.selectedHull)
         {
-            Debug.Log("the fuck");
             Owned();
         }
         else if(playerInventory.getMoney() < cost)

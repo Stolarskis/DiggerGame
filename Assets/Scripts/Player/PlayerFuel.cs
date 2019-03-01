@@ -6,7 +6,6 @@ using System;
 public class PlayerFuel : MonoBehaviour
 {
     public FuelBarScript FuelBar;
-    public GameControllerScript GameController;
     public PlayerInventory playerInventory;
     public FuelStationController fuelStation; 
     public float currentFuel;
@@ -16,12 +15,15 @@ public class PlayerFuel : MonoBehaviour
     public FuelTankObject[] fuelTanks;
     public int selectedFuelTank = 0;
 
+    //Events
+    public delegate void OutOfFuel();
+    public static event OutOfFuel NoFuel;
 
     void Awake()
     {
-        FuelBar.SetupFuelBar();
+        //FuelBar.SetupFuelBar();
         isEmergency = false;
-        currentFuel = fuelTanks[0].maxFuel; 
+        currentFuel = fuelTanks[selectedFuelTank].maxFuel; 
         StartCoroutine("useFuel");
         refillFuel();
     }
@@ -32,8 +34,8 @@ public class PlayerFuel : MonoBehaviour
         {
             if (currentFuel <= 0)
             {
-                StopCoroutine("useFuel"); 
-                GameController.enableGameOver();
+                StopCoroutine("useFuel");
+                NoFuel();
             }
             else
             {

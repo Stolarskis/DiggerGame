@@ -36,8 +36,11 @@ public class PlayerInventory : MonoBehaviour
         inventory = new Hashtable();
         currentInventorySpace = 20;
         muny = 0;
-        addToMuny(100);
-        
+    }
+
+    private void Start()
+    {
+        addToMuny(100000); 
     }
 
     public void addToInventory(TileBase tile)
@@ -89,6 +92,11 @@ public class PlayerInventory : MonoBehaviour
     public void addToMuny(long value)
     {
         muny += value;
+        if (muny < 0)
+        {
+            muny = 0;
+        }
+        //TODO: need to add a event here
         balanceHUD.setText(muny);
     }
     public long getMoney()

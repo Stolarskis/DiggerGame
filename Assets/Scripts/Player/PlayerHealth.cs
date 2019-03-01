@@ -6,14 +6,15 @@ using System;
 public class PlayerHealth : MonoBehaviour
 {
 
-    public GameControllerScript GameController;
     public HealthBarScript HealthBar;
     private float currentHealth;
     private bool isEmergency;
 
-
     public HullObject[] hull;
     public int selectedHull = 0;
+
+    public delegate void OutOfHealth();
+    public static event OutOfHealth NoHealth;
 
     void Awake()
     {
@@ -24,13 +25,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void changeHealth(float amount)
     {
-        Debug.Log(amount);
         currentHealth += amount;
-        Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
-            GameController.enableGameOver();
-            return;
+            NoHealth();
+            currentHealth = 0;
         }
         float size = currentHealth / hull[selectedHull].maxHealth;
         HealthBar.setSize(size);

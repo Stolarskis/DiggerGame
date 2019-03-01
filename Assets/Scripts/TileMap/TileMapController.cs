@@ -17,29 +17,46 @@ public class TileMapController : MonoBehaviour
 
     private void Awake()
     {
-        int[] dirtLayer = new int[4]; //number of things
-        int[] gemLayer = new int[8];
-        //weighting of each thing, high number means more occurrance
-        dirtLayer[0] = 100;
-        dirtLayer[1] = 5;
-        dirtLayer[2] = 5;
-        dirtLayer[3] = 1;
+        int[] proceduralLayer = new int[8];
+        proceduralLayer[0] = 5000;
+        int depth = 0;
+        int oreSelector = 4;
+        proceduralLayer[1] = 250;
+        proceduralLayer[2] = 250;
+        proceduralLayer[3] = 75;
 
-        gemLayer[0] = 500;
-        gemLayer[1] = 10;
-        gemLayer[2] = 10;
-        gemLayer[3] = 5;
-        gemLayer[4] = 3;
-        gemLayer[5] = 1;
-        gemLayer[6] = 1;
-        gemLayer[7] = 1;
-        
-        //renderMap(new int[300,100], level,0,0,dirtLayer,calcTotalWeight(dirtLayer));
-        //renderMap(new int[300,100], level,0,-99,gemLayer,calcTotalWeight(gemLayer));
-        //renderMap(new int[300,100], level,0,-198);
 
-        //renderMap(generateArray(50, 50, true), level,-200,-200);
-        //renderMap(generateArray(50, 50, true), level,-400,-400);
+
+        int[] incrementWeightValues = new int[8];
+        //Dirt
+        incrementWeightValues[0] = 0;
+        //Copper
+        incrementWeightValues[1] = 0;
+        //Iron
+        incrementWeightValues[2] = 0;
+        //Gold
+        incrementWeightValues[3] = 5; 
+        //Plat
+        incrementWeightValues[4] = 15;
+        //Emerald
+        incrementWeightValues[5] = 10;
+        //Ruby
+        incrementWeightValues[6] = 5;
+        //Diamond
+        incrementWeightValues[7] = 1;
+
+
+        for(int i = 0; i < 10; i++)
+        {
+            //Debug.Log(depth);
+            proceduralLayer = incrementWeights(proceduralLayer, oreSelector, incrementWeightValues);
+            renderMap(new int[100,50], level,0,depth,proceduralLayer,calcTotalWeight(proceduralLayer));
+            if(oreSelector < proceduralLayer.Length)
+            {
+                oreSelector++;
+            }
+            depth = depth -50;
+        }
     }
 
     public int calcTotalWeight(int[] tileWeights)
@@ -85,5 +102,17 @@ public class TileMapController : MonoBehaviour
         Debug.Log(oreTally[1]);
         Debug.Log(oreTally[2]);
         Debug.Log(oreTally[3]);
+    }
+
+    public int[] incrementWeights(int[] weights, int upTo, int[] weightIncreaseArr)
+    {
+        if (weights == null){
+            return null; 
+        }
+        for (int i = 0; i < upTo; i++)
+        {
+            weights[i] += weightIncreaseArr[i];
+        }
+        return weights;
     }
 } 

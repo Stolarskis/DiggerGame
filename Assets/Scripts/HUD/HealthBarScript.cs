@@ -7,17 +7,22 @@ public class HealthBarScript : MonoBehaviour
 {
     public Transform HealthBar;
     public SpriteRenderer HealthSprite;
+    public Image HealthImage;
 
     private bool isEmergency;
-    private Color color;   
+    private Color color;
 
-   public void setupHealthBar()
+    private void Awake()
+    {
+        color = HealthSprite.color;
+    }
+
+    public void setupHealthBar()
     {
         
         isEmergency = false;
         HealthBar = transform.Find("FillAnchor");
         HealthSprite = HealthBar.Find("FillSprite").GetComponent<SpriteRenderer>();
-        color = HealthSprite.color;
     }
     
     public void setSize(float size)
@@ -38,9 +43,9 @@ public class HealthBarScript : MonoBehaviour
     {
         while (true)
         {
-            HealthSprite.color = color; 
+            HealthImage.color = color;
             yield return new WaitForSeconds(0.1f);
-            HealthSprite.color = Color.white;
+            HealthImage.color = Color.white;
             yield return new WaitForSeconds(0.1f);
         }
     }

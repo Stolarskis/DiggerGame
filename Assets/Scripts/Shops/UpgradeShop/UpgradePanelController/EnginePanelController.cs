@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 
 public class EnginePanelController : MonoBehaviour
@@ -59,19 +60,22 @@ public class EnginePanelController : MonoBehaviour
     {
         currentSelectedEngine = engine;
         EngineObject selectedEngine = playerMovement.engines[engine];
-        engineNameText.text = selectedEngine.name; 
+        engineNameText.text = Regex.Replace(selectedEngine.name,"[A-Z]"," $0").Trim();
         engineCostText.text = "$" + selectedEngine.cost.ToString(); 
         enginePowerText.text = "Engine Power: " + selectedEngine.runSpeed.ToString(); 
     }
 
     public void buyEngine()
     {
+        Debug.Log("Im being called");
         int engineCost = playerMovement.engines[currentSelectedEngine].cost;
         if (currentSelectedEngine == playerMovement.currentEngine)
         {
+            Debug.Log("Already owned");
             Owned();
         }
-        else if (playerInventory.getMoney() <=  engineCost){
+        else if (playerInventory.getMoney() <  engineCost){
+            Debug.Log("WHAT????");
             NoMoney();
         }
         else

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text.RegularExpressions;
 
 public class FuelTankPanelController: MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class FuelTankPanelController: MonoBehaviour
 
     public void displayFuelTank(int fuelTank)
     {
+        FuelTankNameText.text = Regex.Replace(playerFuel.fuelTanks[fuelTank].name,"[A-Z]"," $0").Trim();
         FuelTankNameText.text =  playerFuel.fuelTanks[fuelTank].name;
         FuelTankCostText.text = "$" + playerFuel.fuelTanks[fuelTank].cost.ToString();
         MaxFuelText.text = "Fuel Capacity: " + playerFuel.fuelTanks[fuelTank].maxFuel.ToString();
