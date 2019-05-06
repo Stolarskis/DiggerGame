@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e56a48dbc1cd54abd83421caa36f47, type: 3}
   m_Name: SteelDrill
   m_EditorClassIdentifier: 
-  digRate: 0.75
-  cost: 500
-  drillName: High-Speed Steel Drill
-  description: Slighty better than Bronze.
+  digRate: 0.65
+  cost: 1000
+  drillName: Steel Drill
+  description: Classic metal, hard and strong. We've discovered better metals since
+    then, but they aren't as cheap.

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e56a48dbc1cd54abd83421caa36f47, type: 3}
-  m_Name: MegaUltraDrill
+  m_Script: {fileID: 11500000, guid: 716070ba8aaf656479671668e091e673, type: 3}
+  m_Name: NewFuelTankObject
   m_EditorClassIdentifier: 
-  digRate: 0
-  cost: 500000
-  drillName: Mega Ultra Drill
-  description: No idea what this is made out of. Or how it got here.
+  fuelTankName: 
+  description: 
+  maxFuel: 0
+  cost: 0

@@ -16,6 +16,13 @@ public class UpgradeStationController : MonoBehaviour
     public Canvas upgradeCanvas;
     public UpgradeCanvasController UpgradeController;
 
+    public delegate void inUI();
+    public static event inUI playerInUI;
+
+    public delegate void outOfUI();
+    public static event outOfUI playerOutOfUI;
+
+
     //Notification subscribers
     private void OnEnable()
     {
@@ -32,20 +39,24 @@ public class UpgradeStationController : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             //UpgradeController.closeAllPanels();
-            openFuelGUI();
+            openUpgradeShopGui();
+            playerInUI();
         }
     }
     
-    private void openFuelGUI()
+    private void openUpgradeShopGui()
     {
         upgradeCanvas.enabled = true;
-        Time.timeScale = 0;
+
+        //This used to work but I can't use it because if time stops, then animations cease to play.
+        //Time.timeScale = 0;
     }
 
     public void closeCanvas()
     {
         upgradeCanvas.enabled = false;
-        Time.timeScale = 1;
+        playerOutOfUI();
+       //Time.timeScale = 1;
     }
 
 

@@ -10,9 +10,10 @@ public class PlayerInventory : MonoBehaviour
 
     //TODO: Inventory space is check for 
     private int currentInventorySpace;
-    private long muny;
+    private long playerMoney;
     private Hashtable inventory = new Hashtable();
     //Value = how much inventory space the item takes up
+    //Ores hashtable = name of ore : [value of ore, mass (how much inventory space it takes up)]
     public Hashtable ores = new Hashtable()
     {
         {"iron", new int[]{25,10} },
@@ -30,17 +31,19 @@ public class PlayerInventory : MonoBehaviour
 
     };
     //TODO Implement Inventoryspace objects + the logic for inventory space
+    public delegate void UpdateMoney(long money);
+    public static event UpdateMoney updateMoney;
 
     private void Awake()
     {
         inventory = new Hashtable();
         currentInventorySpace = 20;
-        muny = 0;
+        playerMoney = 0;
     }
 
     private void Start()
     {
-        addToMuny(100000); 
+        addToMuny(10000000000); 
     }
 
     public void addToInventory(TileBase tile)
@@ -65,21 +68,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void decrementInventory(string ore)
-    {
-        if (!inventory.Contains(ore)){
-            return;
-        }
-        if ((int)inventory[ore] > 1)
-        {
-            inventory[ore] = (int)inventory[ore] - 1;
-        }
-        else 
-        {
-            inventory.Remove(ore);
-        }
-
-    }
+ 
     public void clearInventory()
     {
         inventory.Clear();
@@ -91,17 +80,16 @@ public class PlayerInventory : MonoBehaviour
 
     public void addToMuny(long value)
     {
-        muny += value;
-        if (muny < 0)
+        playerMoney += value;
+        if (playerMoney < 0)
         {
-            muny = 0;
+            playerMoney = 0;
         }
-        //TODO: need to add a event here
-        balanceHUD.setText(muny);
+        updateMoney(playerMoney);
     }
     public long getMoney()
     {
-        return muny;
+        return playerMoney;
     }
 
 

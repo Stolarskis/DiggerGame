@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BronzeDrill
   m_EditorClassIdentifier: 
   digRate: 0.85
-  cost: 500
+  cost: 0
   drillName: Bronze Drill
-  description: Takes a while, but gets the job done.
+  description: We'll be honest, this drill is terrible for mining. Our intern bought
+    it by accident, just take it, its free.

@@ -7,10 +7,22 @@ public class HUDScript : MonoBehaviour
 
     public Canvas playerHUD;
 
-
-    void Awake()
+    public void Awake()
     {
+        GameControllerScript.gameRestarted += setup;
         GameControllerScript.gameOver += disableHUD;
+    }
+    public void OnDestroy()
+    {
+        GameControllerScript.gameRestarted -= setup;
+        GameControllerScript.gameOver -= disableHUD;
+
+    }
+
+    public void setup()
+    {
+        GameObject canvasObject = GameObject.FindGameObjectWithTag("PlayerHUD");
+        playerHUD = canvasObject.GetComponent<Canvas>();
     }
     public void enableHUD()
     {

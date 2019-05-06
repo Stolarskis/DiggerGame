@@ -64,6 +64,8 @@ public class HullPanelController : MonoBehaviour
 
     public void BuyHull()
     {
+        Debug.Log("Buy hull button pressed");
+        Debug.Log(selectedHull);
         long cost = playerHealth.hull[selectedHull].cost;
         if(selectedHull == playerHealth.selectedHull)
         {

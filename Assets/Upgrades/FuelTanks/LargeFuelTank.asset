@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fuelTankName: Large Fuel Tank
   description: The kind of tank you would see on a bus.
-  maxFuel: 50
+  maxFuel: 10000
   cost: 1500

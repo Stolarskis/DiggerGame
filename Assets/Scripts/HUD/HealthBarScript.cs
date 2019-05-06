@@ -23,6 +23,7 @@ public class HealthBarScript : MonoBehaviour
         isEmergency = false;
         HealthBar = transform.Find("FillAnchor");
         HealthSprite = HealthBar.Find("FillSprite").GetComponent<SpriteRenderer>();
+        HealthImage = HealthBar.Find("FillSprite").GetComponent<Image>();
     }
     
     public void setSize(float size)
@@ -36,7 +37,7 @@ public class HealthBarScript : MonoBehaviour
     public void disableEmergency()
     {
         StopCoroutine("emergency");
-        HealthSprite.color = color;
+        HealthImage.color = color;
     }
 
     IEnumerator emergency()

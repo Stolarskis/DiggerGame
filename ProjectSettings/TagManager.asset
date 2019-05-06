@@ -7,6 +7,10 @@ TagManager:
   - FuelBar
   - HUD
   - RestartScreen
+  - PlayerHUD
+  - LoadingScreen
+  - PlayerBalance
+  - DepthHudObject
   layers:
   - Default
   - TransparentFX

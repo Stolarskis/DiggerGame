@@ -15,9 +15,17 @@ public class FuelBarScript : MonoBehaviour
     {
         FuelBar = transform.Find("FillAnchor");
         FuelSprite = FuelBar.Find("FillSprite").GetComponent<SpriteRenderer>();
+        FuelImage = FuelBar.Find("FillSprite").GetComponent<Image>();
+    }
+    private void Start()
+    {
+        if (FuelSprite == null)
+        {
+            Debug.Log("Fuel Sprite == null");
+        }
         color = FuelSprite.color;
     }
-    
+
     public void setSize(float size)
     {
         FuelBar.localScale = new Vector3(1f, size);
@@ -29,7 +37,7 @@ public class FuelBarScript : MonoBehaviour
     public void disableEmergency()
     {
         StopCoroutine("emergency");
-        FuelSprite.color = color;
+        FuelImage.color = color;
     }
 
     IEnumerator emergency()

@@ -10,16 +10,16 @@ public class DrillPanelController : MonoBehaviour
 {
 
     public Button prefab;
-    public Text DrillNameText;
-    public Text DrillInfoText;
-    public Text DrillCostText;
-    public Text DrillDigRateText;
+    public Text nameText;
+    public Text infoText;
+    public Text costText;
+    public Text speedText;
 
     public PlayerInventory playerInventory;
     public playerMovement playerMovement;
-    public int selectedDrill;
+    public int selectedPart;
 
-    private Button[] DrillButtons = new Button[10];
+    private Button[] buttons = new Button[10];
 
     public delegate void NotEnoughMoney();
     public static event NotEnoughMoney NoMoney;
@@ -33,47 +33,46 @@ public class DrillPanelController : MonoBehaviour
     public void Awake()
     {
         generateButtons();
-        //DrillButtonsGenerated();
     }
 
     public void generateButtons()
     {
         int i = 0;
         float y = prefab.transform.position.y;
-        foreach (DrillObject drill in playerMovement.drills)
+        foreach (Object drill in playerMovement.drills)
         {
-            DrillButtons[i] = Instantiate(prefab);
-            DrillButtons[i].transform.SetParent(gameObject.transform.GetChild(2));
-            DrillButtons[i].transform.position = new Vector3 (prefab.transform.position.x,y,prefab.transform.position.z);
-            y += -50;
+            buttons[i] = Instantiate(prefab);
+            buttons[i].transform.SetParent(gameObject.transform.GetChild(2));
+            buttons[i].transform.position = new Vector3 (prefab.transform.position.x,y,prefab.transform.position.z);
+            y += -40;
             //C# gets a bit weird with variable references. To fix it I had to use a tempInt inside the for loop.
             int tempInt = i;
-            DrillButtons[i].onClick.AddListener(delegate { displayDrillInfo(tempInt); });
-            DrillButtons[i].GetComponentInChildren<Text>().text = drill.name;
+            buttons[i].onClick.AddListener(delegate { displayDrillInfo(tempInt); });
+            buttons[i].GetComponentInChildren<Text>().text = drill.drillName;
             i++;
         }
     }
 
     public void displayDrillInfo(int drill)
     {
-        DrillNameText.text =  Regex.Replace(playerMovement.drills[drill].name,"[A-Z]"," $0").Trim();
-        DrillInfoText.text = playerMovement.drills[drill].description;
-        DrillCostText.text = "$" + playerMovement.drills[drill].cost.ToString();
+        nameText.text =  Regex.Replace(playerMovement.drills[drill].drillName,"[A-Z]"," $0").Trim();
+        infoText.text = playerMovement.drills[drill].description;
+        costText.text = "$" + playerMovement.drills[drill].cost.ToString();
         if (playerMovement.drills[drill].digRate == 0)
         {
-            DrillDigRateText.text = "Infinity";
+            speedText.text = "Infinity";
         }
         else
         {
-            DrillDigRateText.text =  Convert.ToInt16(4 / playerMovement.drills[drill].digRate).ToString() + " m/s";
+            speedText.text =  Convert.ToInt16(4 / playerMovement.drills[drill].digRate).ToString() + " m/s";
         }
-        selectedDrill = drill;
+        selectedPart = drill;
     }
 
     public void BuyDrill()
     {
-        int cost = playerMovement.drills[selectedDrill].cost;
-        if(selectedDrill == playerMovement.currentDrill)
+        int cost = playerMovement.drills[selectedPart].cost;
+        if(selectedPart == playerMovement.currentDrill)
         {
             Owned();
         }
@@ -84,7 +83,7 @@ public class DrillPanelController : MonoBehaviour
         else
         {
             playerInventory.addToMuny(-cost);
-            playerMovement.currentDrill = selectedDrill;
+            playerMovement.currentDrill = selectedPart;
         }
 
        

@@ -12,6 +12,7 @@ public class EnginePanelController : MonoBehaviour
     public PlayerInventory playerInventory;
     
     public Text engineNameText;
+    public Text InfoText;
     public Text engineCostText;
     public Text enginePowerText;
 
@@ -46,7 +47,7 @@ public class EnginePanelController : MonoBehaviour
             engineButtons[i] = Instantiate(prefab);
             engineButtons[i].transform.SetParent(gameObject.transform.GetChild(2));
             engineButtons[i].transform.position = new Vector3 (prefab.transform.position.x,y,prefab.transform.position.z);
-            y += -50;
+            y += -40;
             //C# gets a bit weird with variable references. To fix it I had to use a tempInt inside the for loop.
             int tempInt = i;
             engineButtons[i].onClick.AddListener(delegate { displayEngineInfo(tempInt); });
@@ -61,21 +62,20 @@ public class EnginePanelController : MonoBehaviour
         currentSelectedEngine = engine;
         EngineObject selectedEngine = playerMovement.engines[engine];
         engineNameText.text = Regex.Replace(selectedEngine.name,"[A-Z]"," $0").Trim();
+        EngineInfoText.text = playerMovement.engines[engine].description;
         engineCostText.text = "$" + selectedEngine.cost.ToString(); 
-        enginePowerText.text = "Engine Power: " + selectedEngine.runSpeed.ToString(); 
+        enginePowerText.text = selectedEngine.runSpeed.ToString(); 
     }
 
     public void buyEngine()
     {
-        Debug.Log("Im being called");
+        Debug.Log(currentSelectedEngine);
         int engineCost = playerMovement.engines[currentSelectedEngine].cost;
         if (currentSelectedEngine == playerMovement.currentEngine)
         {
-            Debug.Log("Already owned");
             Owned();
         }
         else if (playerInventory.getMoney() <  engineCost){
-            Debug.Log("WHAT????");
             NoMoney();
         }
         else

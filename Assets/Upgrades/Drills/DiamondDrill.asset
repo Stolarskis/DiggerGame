@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e56a48dbc1cd54abd83421caa36f47, type: 3}
   m_Name: DiamondDrill
   m_EditorClassIdentifier: 
-  digRate: 0.5
-  cost: 500
+  digRate: 0.325
+  cost: 500000
   drillName: Diamond Drill
-  description: 
+  description: Made from natural diamonds made in our synthetic diamond factory. Its
+    as natural as it can get!

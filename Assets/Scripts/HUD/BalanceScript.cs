@@ -7,34 +7,31 @@ using UnityEngine.UI;
 public class BalanceScript : MonoBehaviour
 {
     // Update is called once per frame
-    public Text PlayerBalanceText;
+    public Text playerBalanceText;
 
 
     void Awake()
     {
         //Found incorrect text compenent
         //PlayerBalanceText = GameObject.FindObjectOfType<Text>();
-        PlayerBalanceText = gameObject.GetComponentInChildren<Text>();
+        GameObject playerBalance = GameObject.FindGameObjectWithTag("PlayerBalance");
+        playerBalanceText = playerBalance.GetComponentInChildren<Text>();
+        
+        //PlayerBalanceText = gameObject.GetComponentInChildren<Text>();
+        PlayerInventory.updateMoney += setText;
+    }
+
+    void OnDestroy()
+    {
+        PlayerInventory.updateMoney -= setText;    
     }
 
     void Start()
     {
-        PlayerBalanceText.text = "$0";   
     }
 
     public void setText(long money)
     {
-        if (money == 0)
-        {
-            PlayerBalanceText.text = "No Money";
-        }
-        else
-        {
-            if (PlayerBalanceText == null)
-            {
-                Debug.Log("PlayerBalance is null");
-            }
-            PlayerBalanceText.text = "$" + money.ToString();
-        }
+            playerBalanceText.text = "$" + money.ToString();
     }
 }

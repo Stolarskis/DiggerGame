@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AdamantiumDrill
   m_EditorClassIdentifier: 
   digRate: 0.2
-  cost: 150000
+  cost: 1000000
   drillName: Adamantium Drill
   description: Just as much mining proof as it is bullet proof.

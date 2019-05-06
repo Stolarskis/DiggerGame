@@ -10,52 +10,44 @@ public class TileMapController : MonoBehaviour
     public int height;
     public TileBase[] tiles;
 
-    private int[] oreTally;
-
     private Hashtable tileNums = new Hashtable();
+    public bool generateLevelAtStart = false;
     
 
     private void Awake()
     {
-        int[] proceduralLayer = new int[8];
-        proceduralLayer[0] = 5000;
-        int depth = 0;
-        int oreSelector = 4;
-        proceduralLayer[1] = 250;
-        proceduralLayer[2] = 250;
-        proceduralLayer[3] = 75;
+        int[] initialWeights = new int[8] { 5000,50,50,20,0,0,0,0};
+        initialWeights[0] = 5000;
+        initialWeights[1] = 50;
+        initialWeights[2] = 50;
+        initialWeights[3] = 20;
 
 
 
-        int[] incrementWeightValues = new int[8];
+        int[] weightScale = new int[8] {0, 10, 10, 10, 10, 10, 10, 10 };
+        //For Algorithim Tuning Purposes Purposes
         //Dirt
-        incrementWeightValues[0] = 0;
+        weightScale[0] = 0;
         //Copper
-        incrementWeightValues[1] = 0;
+        weightScale[1] = 10;
         //Iron
-        incrementWeightValues[2] = 0;
+        weightScale[2] = 10;
         //Gold
-        incrementWeightValues[3] = 5; 
+        weightScale[3] = 10; 
         //Plat
-        incrementWeightValues[4] = 15;
+        weightScale[4] = 10;
         //Emerald
-        incrementWeightValues[5] = 10;
+        weightScale[5] = 10;
         //Ruby
-        incrementWeightValues[6] = 5;
+        weightScale[6] = 10; 
         //Diamond
-        incrementWeightValues[7] = 1;
+        weightScale[7] = 10;
 
+        //Generate the level
 
-        for(int i = 0; i < 10; i++)
+        if (generateLevelAtStart)
         {
-            //Debug.Log(depth);
-            proceduralLayer = incrementWeights(proceduralLayer, oreSelector, incrementWeightValues);
-            renderMap(new int[100,50], level,0,depth,proceduralLayer,calcTotalWeight(proceduralLayer));
-            if(oreSelector < proceduralLayer.Length)
-            {
-                oreSelector++;
-            }
-            depth = depth -50;
+            generateLevel(-1, initialWeights, weightScale, 10, new int[65, 100], 4);
         }
     }
 
@@ -96,14 +88,6 @@ public class TileMapController : MonoBehaviour
         return result;
     }
 
-    private void displayOreTally()
-    {
-        Debug.Log(oreTally[0]);
-        Debug.Log(oreTally[1]);
-        Debug.Log(oreTally[2]);
-        Debug.Log(oreTally[3]);
-    }
-
     public int[] incrementWeights(int[] weights, int upTo, int[] weightIncreaseArr)
     {
         if (weights == null){
@@ -114,5 +98,29 @@ public class TileMapController : MonoBehaviour
             weights[i] += weightIncreaseArr[i];
         }
         return weights;
+    }
+
+
+    //GenerateLevel is responsible for creating the entire level as each scene is loaded. 
+
+    //It starts out with a set of initial weights for each ore and a weightsScale to increment those weights with each layer. This is to simulate, 
+    //rarer ores becoming more common with each layer. 
+   public void generateLevel(int startingDepth, int[] initialWeights, int[] weightsScale, int numLayers, int[,] sizeLayer, int startingOre)
+    {
+        int sizeLayerLength = sizeLayer.GetLength(1)-1;
+        int oreSelector = startingOre;
+        int depth = startingDepth;
+        int[] weights = initialWeights;
+        for(int i = 0; i < numLayers; i++)
+        {
+            //Debug.Log(depth);
+            weights = incrementWeights(weights, oreSelector,weightsScale);
+            renderMap(sizeLayer, level,0,depth,weights,calcTotalWeight(weights));
+            if(oreSelector < weights.Length)
+            {
+                oreSelector++;
+            }
+            depth = depth - sizeLayerLength;
+        }
     }
 } 

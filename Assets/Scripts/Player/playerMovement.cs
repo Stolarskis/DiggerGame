@@ -13,18 +13,22 @@ public class playerMovement : MonoBehaviour
     public float digRate;
     public float digDistance= 1.2f;
     public Transform isTouchingCheck;
+    public Transform playerTransform;
+    //Invunerable tiles
+    public List<String> iTiles = new List<String>();
     
     public float runSpeed = 40f;
     public float flySpeed = 100f;
     private float horizontalMove;
     private float verticalMove;
     private float nextDig;
-    private bool isDig;
-    private float topAngle;
-    private float sideAngle;
     private float isTouchingCheckRadius = 0.1f;
     private float fallingSum;
 
+    private long depth = 0;
+
+    private bool isDig;
+    private bool movementDisabled;
 
     public DrillObject[] drills;
     public int currentDrill = 0;
@@ -32,13 +36,34 @@ public class playerMovement : MonoBehaviour
     public EngineObject[] engines;
     public int currentEngine = 0;
 
+    public delegate void UpdateDepth(float depth);
+    public static event UpdateDepth updateDepth;
+
     private void Awake()
     {
+        //General Setup (Might put this into a function)
+        iTiles.Add("concrete");
+        iTiles.Add("boulder");
+        
         fallingSum = 0;
         horizontalMove = 0f;
         verticalMove = 0f;
         isDig = false;
+        movementDisabled = false;
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+        GameControllerScript.gameOver += disableMovement;
+        GameControllerScript.playerInUI += disableMovement;
+        GameControllerScript.playerOutOfUI += enableMovement;
     }
+
+    void OnDestroy()
+    {
+        GameControllerScript.gameOver -= disableMovement;
+        GameControllerScript. playerInUI -= disableMovement;
+        GameControllerScript.playerOutOfUI -= enableMovement;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -48,16 +73,20 @@ public class playerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
+
+
         applyFallDamage();
-        if (!isDig)
+        if (!isDig && !movementDisabled)
         {
-            controller.Move(horizontalMove * Time.fixedDeltaTime, false);
-            controller.Fly(verticalMove * Time.fixedDeltaTime);
-            string direction = checkPlayerDigState();
-            if (direction != "")
-            {
-                startDig(direction);
-            }
+                controller.Move(horizontalMove * Time.fixedDeltaTime, false);
+                controller.Fly(verticalMove * Time.fixedDeltaTime);
+                string direction = checkPlayerDigState();
+                if (direction != "")
+                {
+                    startDig(direction);
+                }
+
+            updateDepth?.Invoke(playerTransform.position.y * 12);
         }
     }
 
@@ -166,5 +195,18 @@ public class playerMovement : MonoBehaviour
             fallingSum = controller.m_Rigidbody2D.velocity[1];
         }
     }
+
+private void disableMovement()
+{
+     movementDisabled = true; 
+        controller.m_Rigidbody2D.velocity = Vector2.zero;
 }
 
+//Disable player movement flag and reset inertia to prevent player from flying off the screen.
+ private void enableMovement()
+{
+     movementDisabled = false;
+        controller.m_Rigidbody2D.AddForce(Vector2.zero);
+}
+
+}
